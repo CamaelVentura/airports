@@ -2,21 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 
-const eTickets = []
+const eTickets = [];
 
 @Injectable()
 export class TicketsService {
   create(createTicketDto: CreateTicketDto) {
-    
     const code = `${createTicketDto.flight.code}:${Date.now()}`;
 
     const newETicket = {
       ...createTicketDto,
-      code
-    }
+      code,
+    };
 
-    eTickets.push(newETicket)
-    
+    eTickets.push(newETicket);
     return newETicket;
   }
 
@@ -25,17 +23,15 @@ export class TicketsService {
   }
 
   findOne(code: string) {
-    const eTicket = eTickets.findIndex(eTicket => eTicket.code === code);
+    const eTicket = eTickets.findIndex((eTicket) => eTicket.code === code);
 
     return eTickets[eTicket] || 'Não encontrado';
   }
 
   update(code: string, updateTicketDto: UpdateTicketDto) {
-    
-    const eTicket = eTickets.findIndex(eTicket => eTicket.code === code);
+    const eTicket = eTickets.findIndex((eTicket) => eTicket.code === code);
 
-    if(eTicket >= 0) {
-
+    if (eTicket >= 0) {
       eTickets[eTicket] = updateTicketDto;
       return eTickets[eTicket];
     }
@@ -44,11 +40,9 @@ export class TicketsService {
   }
 
   remove(code: string) {
+    const eTicket = eTickets.findIndex((eTicket) => eTicket.code === code);
 
-    const eTicket = eTickets.findIndex(eTicket => eTicket.code === code);
-
-    if(eTicket >= 0) {
-    
+    if (eTicket >= 0) {
       eTickets.splice(eTicket, 1);
       return `This action removes a #${code} ticket`;
     }

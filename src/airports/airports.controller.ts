@@ -1,10 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AirportsService } from './airports.service';
 import { CreateAirportDto } from './dto/create-airport.dto';
 import { UpdateAirportDto } from './dto/update-airport.dto';
 import { FlightsService } from '../flights/flights.service';
 
-const flightsService = new FlightsService;
+const flightsService = new FlightsService();
 @Controller('airports')
 export class AirportsController {
   constructor(private readonly airportsService: AirportsService) {}
@@ -25,7 +33,10 @@ export class AirportsController {
   }
 
   @Patch(':code')
-  update(@Param('code') code: string, @Body() updateAirportDto: UpdateAirportDto) {
+  update(
+    @Param('code') code: string,
+    @Body() updateAirportDto: UpdateAirportDto,
+  ) {
     return this.airportsService.update(code, updateAirportDto);
   }
 
@@ -36,7 +47,6 @@ export class AirportsController {
 
   @Get('departure/:code')
   findByOrigin(@Param('code') code: string) {
-
     return flightsService.findByDepartureAirport(code);
   }
 }
