@@ -1,0 +1,17 @@
+version: "3.7"
+
+networks:
+  asa-network:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
+services:
+  api:
+    build: .
+    container_name: api_production
+    ports:
+      - 3000:3000
+    networks:
+      asa-network:
+        ipv4_address: 172.20.0.5
