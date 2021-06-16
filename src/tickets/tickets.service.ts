@@ -32,7 +32,7 @@ export class TicketsService {
     const eTicket = eTickets.findIndex((eTicket) => eTicket.code === code);
 
     if (eTicket >= 0) {
-      eTickets[eTicket] = updateTicketDto;
+      eTickets[eTicket] = { ...updateTicketDto, code };
       return eTickets[eTicket];
     }
 

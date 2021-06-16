@@ -24,7 +24,8 @@ const airports = [
 export class AirportsService {
   create(createAirportDto: CreateAirportDto) {
     if (
-      airports.findIndex((airport) => airport.code === createAirportDto.code)
+      airports.filter((airport) => airport.code === createAirportDto.code)
+        .length
     ) {
       return 'Já existe esse código';
     }
@@ -47,7 +48,7 @@ export class AirportsService {
     const airport = airports.findIndex((airport) => airport.code === code);
 
     if (airport >= 0) {
-      airports[airport] = updateAirportDto;
+      airports[airport] = { ...updateAirportDto, code };
       return airports[airport];
     }
 

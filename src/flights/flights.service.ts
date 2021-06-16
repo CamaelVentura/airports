@@ -103,7 +103,9 @@ const flights = [
 @Injectable()
 export class FlightsService {
   create(createFlightDto: CreateFlightDto) {
-    if (flights.findIndex((flight) => flight.code === createFlightDto.code)) {
+    if (
+      flights.filter((flight) => flight.code === createFlightDto.code).length
+    ) {
       return 'Já existe esse código';
     }
 
@@ -126,7 +128,7 @@ export class FlightsService {
     const flight = flights.findIndex((flight) => flight.code === code);
 
     if (flight >= 0) {
-      flights[flight] = updateFlightDto;
+      flights[flight] = { ...updateFlightDto, code };
       return flights[flight];
     }
 

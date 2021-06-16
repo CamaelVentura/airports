@@ -23,7 +23,9 @@ const KEY = '9SY&VHeyvAz*RVt@p8vt';
 @Injectable()
 export class UsersService {
   create(createUserDto: CreateUserDto) {
-    if (users.findIndex((user) => user.username === createUserDto.username)) {
+    if (
+      users.filter((user) => user.username === createUserDto.username).length
+    ) {
       return 'Já existe esse usuário';
     }
 
@@ -45,7 +47,7 @@ export class UsersService {
     const user = users.findIndex((user) => user.username === username);
 
     if (user >= 0) {
-      users[user] = updateUserDto;
+      users[user] = { ...updateUserDto, username };
       return users[user];
     }
 
