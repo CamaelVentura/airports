@@ -1,16 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
+import { FlightsService } from '../flights/flights.service';
 
 const eTickets = [];
+const flightsService = new FlightsService();
 
 @Injectable()
 export class TicketsService {
   create(createTicketDto: CreateTicketDto) {
-    const code = `${createTicketDto.flight.code}:${Date.now()}`;
+    const code = `${createTicketDto.code}:${Date.now()}`;
+
+    const flight = flightsService.findOne(createTicketDto.code);
+    const { user } = createTicketDto;
 
     const newETicket = {
-      ...createTicketDto,
+      flight,
+      user,
       code,
     };
 
@@ -31,8 +37,15 @@ export class TicketsService {
   update(code: string, updateTicketDto: UpdateTicketDto) {
     const eTicket = eTickets.findIndex((eTicket) => eTicket.code === code);
 
+    const flight = flightsService.findOne(updateTicketDto.code);
+    const { user } = updateTicketDto;
+
     if (eTicket >= 0) {
-      eTickets[eTicket] = { ...updateTicketDto, code };
+      eTickets[eTicket] = {
+        flight,
+        user,
+        code,
+      };
       return eTickets[eTicket];
     }
 
